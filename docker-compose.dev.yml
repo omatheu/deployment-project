@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres_dev:
+    image: postgres:15
+    container_name: meu_postgres_dev
+    restart: always
+    environment:
+      POSTGRES_USER: meu_usuario_dev
+      POSTGRES_PASSWORD: minha_senha_dev
+      POSTGRES_DB: meu_banco_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+
+  pgadmin_dev:
+    image: dpage/pgadmin4
+    container_name: meu_pgadmin_dev
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@email.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5051:80"
+    depends_on:
+      - postgres_dev
+
+  api_dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: minha_api_dev
+    restart: always
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres_dev
+      DB_USER: meu_usuario_dev
+      DB_PASSWORD: minha_senha_dev
+      DB_NAME: meu_banco_dev
+      DB_PORT: 5432
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres_dev
+    command: npm run dev
+
+volumes:
+  pgdata_dev: 

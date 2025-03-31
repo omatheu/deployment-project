@@ -1,0 +1,33 @@
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker compose -f docker-compose.dev.yml up -d
+docker compose up --build
+
+// Commands for applying migrations:
+// Apply all pending migrations
+npx knex migrate:latest
+
+// Rollback the last batch of migrations
+npx knex migrate:rollback
+
+// Rollback all migrations
+npx knex migrate:rollback --all
+
+// Run specific migration
+npx knex migrate:up migration_name.js
+
+// Rollback specific migration 
+npx knex migrate:down migration_name.js
+
+// View migration status
+npx knex migrate:status
+
+As a virtual environment you need to specify what component run this migration, like:
+// Run migrations in dev environment
+docker exec minha_api_dev npx knex migrate:latest
+
+// Rollback migrations in dev environment 
+docker exec minha_api_dev npx knex migrate:rollback
+
+// Run seeds in dev environment
+docker exec minha_api_dev npx knex seed:run
