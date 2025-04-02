@@ -31,3 +31,9 @@ docker exec minha_api_dev npx knex migrate:rollback
 
 // Run seeds in dev environment
 docker exec minha_api_dev npx knex seed:run
+
+docker exec minha_api_dev npm run migrate:make update_migration_extension
+
+docker exec minha_api_dev npm run migrate:rollback -- --all
+
+docker exec meu_postgres psql -U meu_usuario -d meu_banco -c "DROP TABLE IF EXISTS users CASCADE;"

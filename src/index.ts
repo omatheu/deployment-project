@@ -1,18 +1,20 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const routes = require('./routes/index');
+import express from 'express';
+import dotenv from 'dotenv';
+import userRoutes from './routes/userRoutes';
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
 app.use(express.json());
-app.use('/api', routes);
+
+// Routes
+app.use('/api/users', userRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK' });
+  res.json({ status: 'ok' });
 });
 
 app.listen(port, () => {
