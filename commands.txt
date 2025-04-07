@@ -37,3 +37,17 @@ docker exec minha_api_dev npm run migrate:make update_migration_extension
 docker exec minha_api_dev npm run migrate:rollback -- --all
 
 docker exec meu_postgres psql -U meu_usuario -d meu_banco -c "DROP TABLE IF EXISTS users CASCADE;"
+
+---------------------------------------------------------------------------------------------------
+
+HOW TO RUN SPEC TESTS with NESTJS (this is not apply to this project, but it is intersting):
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts
+npm test -- -t "should return tenant with creator role from session"
+npm test -- -t "Get User Identity Use Case Test"
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts -t "should return tenant with creator role from session"
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts --verbose
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts --coverage
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts --watch
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts --bail
+npm test -- src/modules/auth/application/__test__/get-user-identity.use-case.spec.ts --verbose --watch
+
