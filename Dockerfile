@@ -10,6 +10,9 @@ COPY . .
 
 RUN npm run build
 
+RUN npm prune --production && \
+    rm -rf src tests
+
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"] 
+CMD ["npm", "start"]
